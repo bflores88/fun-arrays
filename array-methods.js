@@ -14,7 +14,7 @@ var sumOfBankBalances = dataset.bankBalances.map(function (element) {
   return element.amount
 }).reduce(function (previous, current) {
   return parseInt(previous) + parseInt(current);
-})
+});
 
 /*
   from each of the following states:
@@ -33,7 +33,7 @@ var sumOfInterests = dataset.bankBalances.filter(function (element) {
   return parseInt(element.amount) * 0.189;
 }).reduce(function (previous, current) {
   return Math.round(previous + current);
-})
+});
 
 /*
   aggregate the sum of bankBalance amounts
@@ -51,15 +51,18 @@ var sumOfInterests = dataset.bankBalances.filter(function (element) {
     round this number to the nearest dollar before moving on.
   )
  */
-var stateSums = {};
+var stateSums = (function(){
+  let object = {};
 
-dataset.bankBalances.forEach(function(elem){
-  if(!stateSums.hasOwnProperty(elem.state)){
-    stateSums[elem.state] = parseInt(elem.amount);
-  } else {
-    stateSums[elem.state] += parseInt(elem.amount)
-  }
-})
+  dataset.bankBalances.forEach(function(elem){
+    if(!object.hasOwnProperty(elem.state)){
+      object[elem.state] = parseInt(elem.amount);
+    } else {
+      object[elem.state] += parseInt(elem.amount)
+    }
+  });
+  return object;
+}());
 
   /*
     for all states *NOT* in the following states:
@@ -101,7 +104,7 @@ var lowerSumStates = Object.keys(stateSums).map(function(elem){
   return elem[1] < 1000000;
 }).map(function(elem){
   return elem[0];
-})
+});
 
 /*
   aggregate the sum of each state into one hash table
@@ -115,9 +118,7 @@ var higherStateSums = Object.keys(stateSums).map(function(elem){
   return elem[1];
 }).reduce(function(previous, current){
   return previous + current;
-})
-
-console.log(higherStateSums);
+});
 
 /*
   from each of the following states:
@@ -140,7 +141,7 @@ var areStatesInHigherStateSum = Object.keys(stateSums).map(function(elem){
   return elem[0] === 'WI' || elem[0] === 'IL' || elem[0] === 'WY' || elem[0] === 'OH' || elem[0] === 'GA' || elem[0] === 'DE';
 }).every(function(elem){
   return elem[1] > 2550000;
-})
+});
 
 /*
   Stretch Goal && Final Boss
