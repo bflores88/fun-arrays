@@ -11,7 +11,7 @@ var hundredThousandairs = dataset.bankBalances.filter(function (element) {
 
 // set sumOfBankBalances to be the sum of all value held at `amount` for each bank object
 var sumOfBankBalances = dataset.bankBalances.map(function (element) {
-  return element.amount
+  return element.amount;
 }).reduce(function (previous, current) {
   return parseInt(previous) + parseInt(current);
 });
@@ -55,7 +55,7 @@ var stateSums = dataset.bankBalances.reduce(function(previous, current){
     if(!previous.hasOwnProperty(current.state)){
       previous[current.state] = parseInt(current.amount);
     } else {
-      previous[current.state] += parseInt(current.amount)
+      previous[current.state] += parseInt(current.amount);
     }
     return previous;
   }, {});
@@ -81,10 +81,12 @@ var stateSums = dataset.bankBalances.reduce(function(previous, current){
     return !(["WI", "IL", "WY", "OH", "GA", "DE"].includes(elem[0]));
   }).map(function(elem){
     return Math.round(elem[1] * 0.189);
-  }).filter(function(elem){
-    return elem > 50000;
   }).reduce(function(previous, current){
-    return previous + current;
+    if(current > 50000){
+      return previous + current;
+    } else {
+      return previous;
+    }
   });
 
   console.log(sumOfHighInterests);
