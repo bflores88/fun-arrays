@@ -150,7 +150,7 @@ var areStatesInHigherStateSum = Object.entries(stateSums).filter(function(elem){
 var anyStatesInHigherStateSum = Object.keys(stateSums).map(function(elem){
   return [elem, stateSums[elem]];
 }).filter(function(elem){
-  return elem[0] === 'WI' || elem[0] === 'IL' || elem[0] === 'WY' || elem[0] === 'OH' || elem[0] === 'GA' || elem[0] === 'DE';
+  return ["WI", "IL", "WY", "OH", "GA", "DE"].includes(elem[0]);
 }).some(function(elem){
   return elem[1] > 2550000;
 });
