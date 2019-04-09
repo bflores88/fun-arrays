@@ -77,10 +77,8 @@ var stateSums = dataset.bankBalances.reduce(function(previous, current){
       round this number to the nearest dollar before moving on.
     )
    */
-  var sumOfHighInterests = Object.keys(stateSums).map(function(elem){
-    return [elem, stateSums[elem]];
-  }).filter(function(elem){
-    return elem[0] !== 'WI' && elem[0] !== 'IL' && elem[0] !== 'WY' && elem[0] !== 'OH' && elem[0] !== 'GA' && elem[0] !== 'DE';
+  var sumOfHighInterests = Object.entries(stateSums).filter(function(elem){
+    return !(["WI", "IL", "WY", "OH", "GA", "DE"].includes(elem[0]));
   }).map(function(elem){
     return Math.round(elem[1] * 0.189);
   }).filter(function(elem){
@@ -89,14 +87,14 @@ var stateSums = dataset.bankBalances.reduce(function(previous, current){
     return previous + current;
   });
 
+  console.log(sumOfHighInterests);
+
 /*
   set `lowerSumStates` to be an array of two letter state
   abbreviations of each state where the sum of amounts
   in the state is less than 1,000,000
  */
-var lowerSumStates = Object.keys(stateSums).map(function(elem){
-  return [elem, stateSums[elem]];
-}).filter(function(elem){
+var lowerSumStates = Object.entries(stateSums).filter(function(elem){
   return elem[1] < 1000000;
 }).map(function(elem){
   return elem[0];
@@ -106,9 +104,7 @@ var lowerSumStates = Object.keys(stateSums).map(function(elem){
   aggregate the sum of each state into one hash table
   `higherStateSums` should be the sum of all states with totals greater than 1,000,000
  */
-var higherStateSums = Object.keys(stateSums).map(function(elem){
-  return [elem, stateSums[elem]]
-}).filter(function(elem){
+var higherStateSums = Object.entries(stateSums).filter(function(elem){
   return elem[1] > 1000000;
 }).map(function(elem){
   return elem[1];
@@ -131,9 +127,7 @@ var higherStateSums = Object.keys(stateSums).map(function(elem){
   if true set `areStatesInHigherStateSum` to `true`
   otherwise set it to `false`
  */
-var areStatesInHigherStateSum = Object.keys(stateSums).map(function(elem){
-  return [elem, stateSums[elem]]
-}).filter(function(elem){
+var areStatesInHigherStateSum = Object.entries(stateSums).filter(function(elem){
   return ["WI", "IL", "WY", "OH", "GA", "DE"].includes(elem[0]);
 }).every(function(elem){
   return elem[1] > 2550000;
