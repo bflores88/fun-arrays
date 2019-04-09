@@ -12,7 +12,8 @@ var hundredThousandairs = dataset.bankBalances.filter(function (element) {
 // set sumOfBankBalances to be the sum of all value held at `amount` for each bank object
 var sumOfBankBalances = dataset.bankBalances.map(function (element) {
   return element.amount;
-}).reduce(function (previous, current) {
+})
+  .reduce(function (previous, current) {
   return parseInt(previous) + parseInt(current);
 });
 
@@ -29,9 +30,11 @@ var sumOfBankBalances = dataset.bankBalances.map(function (element) {
  */
 var sumOfInterests = dataset.bankBalances.filter(function (element) {
   return ["WI", "IL", "WY", "OH", "GA", "DE"].includes(element.state);
-}).map(function (element) {
+})
+  .map(function (element) {
   return parseInt(element.amount) * 0.189;
-}).reduce(function (previous, current) {
+})
+  .reduce(function (previous, current) {
   return Math.round(previous + current);
 });
 
@@ -77,11 +80,14 @@ var stateSums = dataset.bankBalances.reduce(function(previous, current){
       round this number to the nearest dollar before moving on.
     )
    */
-  var sumOfHighInterests = Object.entries(stateSums).filter(function(elem){
+  var sumOfHighInterests = Object.entries(stateSums)
+    .filter(function(elem){
     return !(["WI", "IL", "WY", "OH", "GA", "DE"].includes(elem[0]));
-  }).map(function(elem){
+  })
+    .map(function(elem){
     return Math.round(elem[1] * 0.189);
-  }).reduce(function(previous, current){
+  })
+    .reduce(function(previous, current){
     if(current > 50000){
       return previous + current;
     } else {
@@ -94,9 +100,11 @@ var stateSums = dataset.bankBalances.reduce(function(previous, current){
   abbreviations of each state where the sum of amounts
   in the state is less than 1,000,000
  */
-var lowerSumStates = Object.entries(stateSums).filter(function(elem){
+var lowerSumStates = Object.entries(stateSums)
+  .filter(function(elem){
   return elem[1] < 1000000;
-}).map(function(elem){
+})
+  .map(function(elem){
   return elem[0];
 });
 
@@ -104,9 +112,11 @@ var lowerSumStates = Object.entries(stateSums).filter(function(elem){
   aggregate the sum of each state into one hash table
   `higherStateSums` should be the sum of all states with totals greater than 1,000,000
  */
-var higherStateSums = Object.entries(stateSums).map(function(elem){
+var higherStateSums = Object.entries(stateSums)
+  .map(function(elem){
   return elem[1];
-}).reduce(function(previous, current){
+})
+  .reduce(function(previous, current){
   if(current > 1000000){
     return previous + current;
   } else {
@@ -129,9 +139,11 @@ var higherStateSums = Object.entries(stateSums).map(function(elem){
   if true set `areStatesInHigherStateSum` to `true`
   otherwise set it to `false`
  */
-var areStatesInHigherStateSum = Object.entries(stateSums).filter(function(elem){
+var areStatesInHigherStateSum = Object.entries(stateSums)
+  .filter(function(elem){
   return ["WI", "IL", "WY", "OH", "GA", "DE"].includes(elem[0]);
-}).every(function(elem){
+})
+  .every(function(elem){
   return elem[1] > 2550000;
 });
 
@@ -149,9 +161,11 @@ var areStatesInHigherStateSum = Object.entries(stateSums).filter(function(elem){
   have a sum of account values greater than 2,550,000
   otherwise set it to be `false`
  */
-var anyStatesInHigherStateSum = Object.entries(stateSums).filter(function(elem){
+var anyStatesInHigherStateSum = Object.entries(stateSums)
+  .filter(function(elem){
   return ["WI", "IL", "WY", "OH", "GA", "DE"].includes(elem[0]);
-}).some(function(elem){
+})
+  .some(function(elem){
   return elem[1] > 2550000;
 });
 
