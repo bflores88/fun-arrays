@@ -106,12 +106,14 @@ var lowerSumStates = Object.entries(stateSums).filter(function(elem){
   aggregate the sum of each state into one hash table
   `higherStateSums` should be the sum of all states with totals greater than 1,000,000
  */
-var higherStateSums = Object.entries(stateSums).filter(function(elem){
-  return elem[1] > 1000000;
-}).map(function(elem){
+var higherStateSums = Object.entries(stateSums).map(function(elem){
   return elem[1];
 }).reduce(function(previous, current){
-  return previous + current;
+  if(current > 1000000){
+    return previous + current;
+  } else {
+    return previous;
+  }
 });
 
 /*
@@ -149,9 +151,7 @@ var areStatesInHigherStateSum = Object.entries(stateSums).filter(function(elem){
   have a sum of account values greater than 2,550,000
   otherwise set it to be `false`
  */
-var anyStatesInHigherStateSum = Object.keys(stateSums).map(function(elem){
-  return [elem, stateSums[elem]];
-}).filter(function(elem){
+var anyStatesInHigherStateSum = Object.entries(stateSums).filter(function(elem){
   return ["WI", "IL", "WY", "OH", "GA", "DE"].includes(elem[0]);
 }).some(function(elem){
   return elem[1] > 2550000;
