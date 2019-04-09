@@ -89,8 +89,6 @@ var stateSums = dataset.bankBalances.reduce(function(previous, current){
     }
   });
 
-  console.log(sumOfHighInterests);
-
 /*
   set `lowerSumStates` to be an array of two letter state
   abbreviations of each state where the sum of amounts
