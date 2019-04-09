@@ -28,7 +28,7 @@ var sumOfBankBalances = dataset.bankBalances.map(function (element) {
   and then sum it all up into one value saved to `sumOfInterests`
  */
 var sumOfInterests = dataset.bankBalances.filter(function (element) {
-  return element.state === 'WI' || element.state === 'IL' || element.state === 'WY' || element.state === 'OH' || element.state === 'GA' || element.state === 'DE';
+  return ["WI", "IL", "WY", "OH", "GA", "DE"].includes(element.state);
 }).map(function (element) {
   return parseInt(element.amount) * 0.189;
 }).reduce(function (previous, current) {
@@ -51,18 +51,14 @@ var sumOfInterests = dataset.bankBalances.filter(function (element) {
     round this number to the nearest dollar before moving on.
   )
  */
-var stateSums = (function(){
-  let object = {};
-
-  dataset.bankBalances.forEach(function(elem){
-    if(!object.hasOwnProperty(elem.state)){
-      object[elem.state] = parseInt(elem.amount);
+var stateSums = dataset.bankBalances.reduce(function(previous, current){
+    if(!previous.hasOwnProperty(current.state)){
+      previous[current.state] = parseInt(current.amount);
     } else {
-      object[elem.state] += parseInt(elem.amount)
+      previous[current.state] += parseInt(current.amount)
     }
-  });
-  return object;
-}());
+    return previous;
+  }, {});
 
   /*
     for all states *NOT* in the following states:
@@ -138,7 +134,7 @@ var higherStateSums = Object.keys(stateSums).map(function(elem){
 var areStatesInHigherStateSum = Object.keys(stateSums).map(function(elem){
   return [elem, stateSums[elem]]
 }).filter(function(elem){
-  return elem[0] === 'WI' || elem[0] === 'IL' || elem[0] === 'WY' || elem[0] === 'OH' || elem[0] === 'GA' || elem[0] === 'DE';
+  return ["WI", "IL", "WY", "OH", "GA", "DE"].includes(elem[0]);
 }).every(function(elem){
   return elem[1] > 2550000;
 });
@@ -158,7 +154,7 @@ var areStatesInHigherStateSum = Object.keys(stateSums).map(function(elem){
   otherwise set it to be `false`
  */
 var anyStatesInHigherStateSum = Object.keys(stateSums).map(function(elem){
-  return [elem, stateSums[elem]]
+  return [elem, stateSums[elem]];
 }).filter(function(elem){
   return elem[0] === 'WI' || elem[0] === 'IL' || elem[0] === 'WY' || elem[0] === 'OH' || elem[0] === 'GA' || elem[0] === 'DE';
 }).some(function(elem){
